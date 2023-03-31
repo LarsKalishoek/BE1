@@ -3,28 +3,24 @@
 date_default_timezone_set('Europe/Amsterdam');
 $time_check = date("h");
 $time3 = date("h:i:s");
-$time = date("h:i:s A");
-$findme = 'a';
-$pos = strpos($time, $findme);
+$date = date("h:i:s a");
 
-if ($pos === false) {
-  if ($time_check >= 6){
-    $text = "Goede Morgen! <br>";
-    $bg_img = "images/morning.png";
-  }else{
-    $text = "Goede Nacht! <br>";
-    $bg_img = "images/night.png";
+if (preg_match('/\bpm\b/', $date)) {
+  if (date("h") <= 18){
+      $bg_img = "images/afternoon.png";
+      $text = "Goede Middag";
+  }else{ 
+      $bg_img = "images/evening.png";
+      $text = "Goede Avond";
   }
-if ($pos === true){
-  if ($time_check >= 6){
-    $text = "Goede Avond!";
-    $bg_img = "images/evening.png";
+}else{
+  if (date("h") <= 6){
+      $bg_img = "images/night.png";
+      $text = "Goede Nacht";
   }else{
-    $text = "Goede Middag!";
-    $bg_img = "images/afternoon.png";
+      $bg_img = "images/morning.png";
+      $text = "Goede Morgen";
   }
-}
-
 }
 
 
@@ -61,8 +57,8 @@ if ($pos === true){
     // Get the current time
     var now = new Date();
     // Update the content of the div with the current time
-    document.getElementById("time").innerHTML = "<?= $text?>"+ now.toLocaleTimeString();
-  }, 1000); // 1000 milliseconds = 1 second*
+    document.getElementById("time").innerHTML = "<?= $text ?>" + "<br>" + now.toLocaleTimeString();
+  }, 1); // 1000 milliseconds = 1 second*
 
   </script>
 </html>
